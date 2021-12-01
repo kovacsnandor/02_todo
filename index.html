@@ -70,19 +70,30 @@
 
                 <!-- filters -->
                 <div>
-                    <button type="button" class="btn btn-sm mr-3">
+                    <button 
+                    @click="SetFilter('all')"
+                    :class = "GetFilterButtonClass('all')"
+                    type="button" class="btn btn-sm mr-3">
                         All
                     </button>
-                    <button type="button" class="btn btn-sm mr-3">
+                    <button 
+                    @click="SetFilter('active')"
+                    :class = "GetFilterButtonClass('active')"
+                    type="button" class="btn btn-sm mr-3">
                         Active
                     </button>
-                    <button type="button" class="btn btn-sm mr-3">
+                    <button 
+                    @click="SetFilter('completed')"
+                    :class = "GetFilterButtonClass('completed')"
+                    type="button" class="btn btn-sm mr-3">
                         Complete
                     </button>
                 </div>
                 
                 <!-- Remove completed -->
-                <button type="button" class="btn btn-link mr-3">
+                <button 
+                @click="OnClickRemoveCompleted()"
+                type="button" class="btn btn-link mr-3">
                     Remove complete
                 </button>
             </div>

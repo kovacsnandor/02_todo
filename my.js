@@ -10,6 +10,7 @@ var app = new Vue({
     el: '#app',
     data: {
         message: 'Hello Vue!',
+        filter: "all",
         newTodoName: null,
         todoCollection: [
             new Todo("todo 1"),
@@ -37,6 +38,21 @@ var app = new Vue({
             this.todoCollection.filter(function (todo) {
                 todo.completed = true;
             });
+        },
+        SetFilter(filter){
+            this.filter = filter;
+            console.log(this.filter);
+        },
+        OnClickRemoveCompleted(){
+            this.todoCollection = this.todoCollection.filter(function(todo){
+                return !todo.completed;
+            });
+        },
+        GetFilterButtonClass(filter){
+            return {
+                "btn-outline-secondary" : filter != this.filter,
+                "btn-secondary" : filter == this.filter
+            }
         }
     },
     computed: {
