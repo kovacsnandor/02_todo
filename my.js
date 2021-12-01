@@ -62,6 +62,20 @@ var app = new Vue({
 
         items() {
             return this.counter > 1 ? "items" : "item";
+        },
+        filteredTodoCollection(){
+            //A this-t fére kell teni, mert a belső függvényben az már mást jelent
+            let vm = this;
+            return this.todoCollection.filter(function(todo){
+                switch(vm.filter){
+                    case 'all':
+                        return true;
+                    case 'active':
+                        return !todo.completed;
+                    case 'completed':
+                        return todo.completed;
+                }
+            });
         }
 
     }
