@@ -31,22 +31,25 @@
                         class="list-group-item d-flex flex-row align-items-center">
                         <!-- todo complete -->
                         <div class="form-check">
-                            <input :id="`checkox${index}`"
+                            <input :id="`checkbox${index}`"
                                 v-model="todo.completed"
-                                class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="`checkox${index}`"></label>
+                                class="form-check-input" type="checkbox" value="">
+                            <label class="form-check-label" :for="`checkbox${index}`"></label>
                         </div>
 
                         <!-- todo.name -->
                         <span :class="{
                             'line-through': todo.completed
                         }"
-                        
+                        v-show="!todo.editing"
                         >{{todo.name}}</span>
 
                         <!-- todo.name edit -->
                         <div class="form-group mb-0 flex-grow-1">
-                            <input type="text" class="form-control" v-model="todo.name">
+                            <input type="text" class="form-control" 
+                            v-model="todo.name"
+                            v-show="todo.editing"
+                            >
                         </div>
                     </li>
                 </ul>
