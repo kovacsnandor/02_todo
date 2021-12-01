@@ -26,6 +26,9 @@ var app = new Vue({
         OnEnterTodoName(todo) {
             todo.editing = false;
         },
+        OnCancelTodoName(todo){
+            todo.editing = false;
+        },
         OnEnterAddTodo() {
             if (this.newTodoName) {
                 this.todoCollection.push(new Todo(this.newTodoName));

@@ -57,6 +57,8 @@
                             <input type="text" class="form-control" 
                             v-model="todo.name"
                             @keyup.enter="OnEnterTodoName(todo)"
+                            @keyup.esc="OnCancelTodoName(todo)"
+                            @blur="OnCancelTodoName(todo)"
                             >
                         </div>
                     </li>
