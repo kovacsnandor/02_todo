@@ -27,7 +27,8 @@
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <!-- todo template -->
-                    <li class="list-group-item d-flex flex-row align-items-center">
+                    <li v-for="(todo, index) in todoCollection"
+                        class="list-group-item d-flex flex-row align-items-center">
                         <!-- todo complete -->
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -35,21 +36,13 @@
                         </div>
 
                         <!-- todo.name -->
-                        <span>todo 1</span>
+                        <span>{{todo.name}}</span>
 
                         <!-- todo.name edit -->
                         <div class="form-group mb-0 flex-grow-1">
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" v-model="todo.name">
                         </div>
                     </li>
-
-                    <!-- vfor szemléltetése -->
-                    <li v-for="(todo, index) in todoCollection"
-                    class="list-group-item d-flex flex-row align-items-center"
-                    >
-                        {{todo}} ({{index}})
-                    </li>    
-
                 </ul>
             </div>
 
