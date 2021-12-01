@@ -19,7 +19,10 @@
             <div class="card-header d-flex flex-row">
                 <button type="button" class="btn btn-primary me-3">Completed all</button>
                 <div class="form-group mb-0 flex-grow-1">
-                    <input type="text" class="form-control" placeholder="Add todo here">
+                    <input type="text" class="form-control" placeholder="Add todo here"
+                    @keyup.enter="OnEnterAddTodo()"
+                    v-model="newTodoName"
+                    >
                 </div>
             </div>
 
@@ -46,10 +49,12 @@
                         >{{todo.name}}</span>
 
                         <!-- todo.name edit -->
-                        <div class="form-group mb-0 flex-grow-1">
+                        <div class="form-group mb-0 flex-grow-1"
+                        v-show="todo.editing"
+                        >
                             <input type="text" class="form-control" 
                             v-model="todo.name"
-                            v-show="todo.editing"
+                            @keyup.enter="OnEnterTodoName(todo)"
                             >
                         </div>
                     </li>
