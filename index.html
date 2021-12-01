@@ -43,6 +43,13 @@
                         </div>
                     </li>
 
+                    <!-- vfor szemléltetése -->
+                    <li v-for="(todo, index) in todoCollection"
+                    class="list-group-item d-flex flex-row align-items-center"
+                    >
+                        {{todo}} ({{index}})
+                    </li>    
+
                 </ul>
             </div>
 
