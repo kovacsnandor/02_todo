@@ -9,27 +9,44 @@ class Todo {
 var app = new Vue({
     el: '#app',
     data: {
-      message: 'Hello Vue!',
-      newTodoName: null,
-      todoCollection: [
-          new Todo("todo 1"),
-          new Todo("todo 2"),
-          new Todo("todo 3"),
-          new Todo("todo 4")
-      ]
+        message: 'Hello Vue!',
+        newTodoName: null,
+        todoCollection: [
+            new Todo("todo 1"),
+            new Todo("todo 2"),
+            new Todo("todo 3"),
+            new Todo("todo 4")
+        ]
     },
     methods: {
-        onDblClickTodoName(todo){
+        onDblClickTodoName(todo) {
             todo.editing = true;
         },
-        OnEnterTodoName(todo){
+        OnEnterTodoName(todo) {
             todo.editing = false;
         },
-        OnEnterAddTodo(){
+        OnEnterAddTodo() {
             if (this.newTodoName) {
                 this.todoCollection.push(new Todo(this.newTodoName));
                 this.newTodoName = "";
             }
         },
+        OnClickAllDone() {
+            //A filter csak azért kell, hogy mindegyiken végigmenjen
+            //lehetne foreach-el is
+            this.todoCollection.filter(function (todo) {
+                todo.completed = true;
+            });
+        }
+    },
+    computed: {
+        counter() {
+            return this.todoCollection.length;
+        },
+
+        items() {
+            return this.counter > 1 ? "items" : "item";
+        }
+
     }
-  })
+})
