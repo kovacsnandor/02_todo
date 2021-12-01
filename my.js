@@ -16,5 +16,10 @@ var app = new Vue({
           new Todo("todo 3"),
           new Todo("todo 4")
       ]
+    },
+    methods: {
+        onDblClickTodoName(todo){
+            todo.editing = true;
+        }
     }
   })
