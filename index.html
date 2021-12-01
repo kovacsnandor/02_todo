@@ -31,8 +31,10 @@
                         class="list-group-item d-flex flex-row align-items-center">
                         <!-- todo complete -->
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault"></label>
+                            <input :id="`checkox${index}`"
+                                v-model="todo.completed"
+                                class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="`checkox${index}`"></label>
                         </div>
 
                         <!-- todo.name -->
