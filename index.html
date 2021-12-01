@@ -42,6 +42,7 @@
                             'line-through': todo.completed
                         }"
                         v-show="!todo.editing"
+                        @dblclick="todo.editing = true"
                         >{{todo.name}}</span>
 
                         <!-- todo.name edit -->
