@@ -38,7 +38,11 @@
                         </div>
 
                         <!-- todo.name -->
-                        <span>{{todo.name}} {{todo.completed ? "kész" : "folyamatban"}}</span>
+                        <span :class="{
+                            'line-through': todo.completed
+                        }"
+                        
+                        >{{todo.name}}</span>
 
                         <!-- todo.name edit -->
                         <div class="form-group mb-0 flex-grow-1">
