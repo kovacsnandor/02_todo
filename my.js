@@ -12,6 +12,7 @@ var app = new Vue({
         message: 'Hello Vue!',
         filter: "all",
         newTodoName: null,
+        completedOnOff: false,
         editingTodoName: null,
         todoCollection: [
             new Todo("todo 1"),
@@ -50,8 +51,10 @@ var app = new Vue({
         OnClickAllDone() {
             //A filter csak azért kell, hogy mindegyiken végigmenjen
             //lehetne foreach-el is
+            this.completedOnOff = !this.completedOnOff;
+            let completed = this.completedOnOff;
             this.todoCollection.filter(function (todo) {
-                todo.completed = true;
+                todo.completed = completed;
             });
         },
         SetFilter(filter){
