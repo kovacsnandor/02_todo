@@ -22,6 +22,10 @@ var app = new Vue({
     },
     methods: {
         onDblClickTodoName(todo) {
+            //Ha már pipált, ne lehseen editálni
+            if(todo.completed){
+                return;
+            }
             todo.editing = true;
             this.editingTodoName = todo.name;
         },
