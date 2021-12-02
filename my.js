@@ -31,7 +31,10 @@ var app = new Vue({
         },
         OnEnterTodoName(todo) {
             todo.editing = false;
-            todo.name = this.editingTodoName;
+            //Csak akkor tároljuk, ha nem üres
+            if(this.editingTodoName){
+                todo.name = this.editingTodoName;
+            }
             this.editingTodoName = null;
         },
         OnCancelTodoName(todo){
