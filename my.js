@@ -12,6 +12,7 @@ var app = new Vue({
         message: 'Hello Vue!',
         filter: "all",
         newTodoName: null,
+        editingTodoName: null,
         todoCollection: [
             new Todo("todo 1"),
             new Todo("todo 2"),
@@ -22,12 +23,16 @@ var app = new Vue({
     methods: {
         onDblClickTodoName(todo) {
             todo.editing = true;
+            this.editingTodoName = todo.name;
         },
         OnEnterTodoName(todo) {
             todo.editing = false;
+            todo.name = this.editingTodoName;
+            this.editingTodoName = null;
         },
         OnCancelTodoName(todo){
             todo.editing = false;
+            this.editingTodoName = null;
         },
         OnEnterAddTodo() {
             if (this.newTodoName) {
