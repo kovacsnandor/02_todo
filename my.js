@@ -19,9 +19,65 @@ var app = new Vue({
             new Todo("todo 2"),
             new Todo("todo 3"),
             new Todo("todo 4")
-        ]
+        ], 
+        url: "http://localhost:3000/todos"
+    },
+    async mounted(){
+        this.getTodos();
     },
     methods: {
+        async getTodos(){
+            const response = await fetch(this.url);
+            data = await response.json()
+            this.todoCollection = data.data;
+        },
+        async postTodo(){
+            const newTodo = {
+                name: this.newTodoName,
+                completed: 0
+            }
+            const config = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newTodo)
+            }
+
+            const response = await fetch(this.url, config);
+            this.getTodos();
+        },
+        async putTodo(todo){
+            const id = todo.id;
+            const newTodo = {
+                name: todo.name,
+                completed: todo.completed ? 1: 0
+            }
+            const config = {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newTodo)
+            }
+            const url = `${this.url}/${id}`;
+            const response = await fetch(url, config);
+            this.getTodos();
+        },
+        async deleteTodo(){
+            const config = {
+                method: 'DELETE',
+            }
+            const response = await fetch(this.url, config);
+            this.getTodos();
+        },
+        onClickCompleted(index){
+            console.log(index);
+            const todo = this.todoCollection[index];
+            this.putTodo(todo);
+        },
         onDblClickTodoName(todo) {
             //Ha már pipált, ne lehseen editálni
             if(todo.completed){
@@ -35,6 +91,7 @@ var app = new Vue({
             //Csak akkor tároljuk, ha nem üres
             if(this.editingTodoName){
                 todo.name = this.editingTodoName;
+                this.putTodo(todo);
             }
             this.editingTodoName = null;
         },
@@ -44,7 +101,7 @@ var app = new Vue({
         },
         OnEnterAddTodo() {
             if (this.newTodoName) {
-                this.todoCollection.push(new Todo(this.newTodoName));
+                this.postTodo();
                 this.newTodoName = "";
             }
         },
@@ -62,9 +119,10 @@ var app = new Vue({
             console.log(this.filter);
         },
         OnClickRemoveCompleted(){
-            this.todoCollection = this.todoCollection.filter(function(todo){
-                return !todo.completed;
-            });
+            // this.todoCollection = this.todoCollection.filter(function(todo){
+            //     return !todo.completed;
+            // });
+            this.deleteTodo();
         },
         GetFilterButtonClass(filter){
             return {
