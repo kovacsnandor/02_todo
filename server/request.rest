@@ -174,3 +174,29 @@ Content-Type: application/json
     "date": "2022.10.13 01:35:00",
     "carId": 2
 }
+
+### ------------------------
+### get todo
+get http://localhost:3000/todos
+
+### post todo
+post http://localhost:3000/todos
+Content-Type: application/json
+
+{
+    "name": "szerviz",
+    "completed": 0
+}
+
+
+### put todo by id
+put http://localhost:3000/todos/1
+Content-Type: application/json
+
+{
+    "name": "szerviz",
+    "completed": 1
+}
+
+### delte completed todos
+delete http://localhost:3000/todos

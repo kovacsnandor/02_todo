@@ -594,6 +594,106 @@ app.put("/trips/:id", (req, res) => {
 });
 //#endregion trips
 
+
+//#region todos ---
+
+app.get("/todos", (req, res) => {
+  let sql = `
+  select * from todos`;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+
+    connection.query(sql, function (error, results, fields) {
+      sendingGet(res, error, results);
+    });
+
+    connection.release();
+  });
+});
+
+app.post("/todos", (req, res) => {
+  const newR = {
+    name: sanitizeHtml(req.body.name),
+    completed: +sanitizeHtml(req.body.completed)
+  };
+
+  let sql = `
+  INSERT INTO todos
+  (name, completed)
+  VALUES
+  (?, ?)
+    `;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(
+      sql,
+      [newR.name, newR.completed],
+      function (error, result, fields) {
+        sendingPost(res, error, result, newR);
+      }
+    );
+    connection.release();
+  });
+});
+
+app.put("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  const newR = {
+    name: sanitizeHtml(req.body.name),
+    completed: +sanitizeHtml(req.body.completed)
+  };
+  let sql = `
+  UPDATE todos SET
+  name = ?, completed = ?
+  WHERE id = ?
+      `;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(
+      sql,
+      [newR.name, newR.completed, id],
+      function (error, result, fields) {
+        sendingPut(res, error, result, id, newR);
+      }
+    );
+    connection.release();
+  });
+});
+
+
+app.delete("/todos/", (req, res) => {
+  let sql = `
+      DELETE FROM todos
+      WHERE completed = 1`;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(sql, function (error, result, fields) {
+      sendingDelete(res, error, result, null);
+    });
+    connection.release();
+  });
+});
+
+//#endregion todos
+
+
+
 function mySanitizeHtml(data) {
   return sanitizeHtml(data, {
     allowedTags: [],
