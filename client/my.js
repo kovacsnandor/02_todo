@@ -14,22 +14,24 @@ var app = new Vue({
         newTodoName: null,
         completedOnOff: false,
         editingTodoName: null,
-        todoCollection: [
-            new Todo("todo 1"),
-            new Todo("todo 2"),
-            new Todo("todo 3"),
-            new Todo("todo 4")
-        ], 
-        url: "http://localhost:3000/todos"
+        todoCollection: [], 
+        url: "http://localhost:3000/todos",
+        errorMessage: null
     },
     async mounted(){
         this.getTodos();
     },
     methods: {
         async getTodos(){
-            const response = await fetch(this.url);
-            data = await response.json()
-            this.todoCollection = data.data;
+            try {
+                
+                const response = await fetch(this.url);
+                console.log("ok",response.ok);
+                data = await response.json()
+                this.todoCollection = data.data;
+            } catch (error) {
+                console.log("hiba", error.message);                
+            }
         },
         async postTodo(){
             const newTodo = {
