@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "userName": "endre",
-    "password": "1234"
+    "password": "123"
 }
 
 ### token kérés

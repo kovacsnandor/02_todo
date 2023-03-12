@@ -39,6 +39,10 @@ call todoGen();
 select * from todos;
 select * from users; # jelszó 123
 
+SELECT * FROM todos
+  WHERE userId = 24;
+
+
 # post
 INSERT INTO todos
   (name, completed)

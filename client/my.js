@@ -16,12 +16,77 @@ var app = new Vue({
     editingTodoName: null,
     todoCollection: [],
     url: "http://localhost:3000/todos",
+    urlAuth: "http://localhost:4000",
     errorMessage: null,
+    userName: null,
+    password: null,
+    accessToken: null,
+    refreshToken: null,
+    userId: 0,
+    number: 0,
+    loginSuccess: 0,
+    loginError: 0,
   },
   async mounted() {
     this.getTodos();
   },
   methods: {
+    loginErrorMessage(){
+      console.log("error message");
+      this.loginError = 1;
+      setTimeout(()=>{
+        this.loginError = 0;
+      }, 3000);
+    },
+    async login() {
+      const url = `${this.urlAuth}/login`;
+      const user = {
+        userName: this.userName,
+        password: this.password
+      };
+      const config = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      };
+      try {
+        this.errorMessage = null;
+        const response = await fetch(url, config);
+        if (!response.ok) {
+          this.errorMessage = "Server error1";
+          return;
+        }
+        const data = await response.json();
+        console.log("login", data);
+        if (data.success) {
+          //sikeres bejelentkezés
+          this.loginSuccess = data.success;
+          this.accessToken = data.data.accessToken;
+          this.refreshToken = data.data.refreshToken;
+          this.userId = data.data.userId;
+          this.number = data.data.number;
+          this.loginSuccess = data.success;
+          this.getTodos();
+        }else{
+          //sikertelen bejelenkezés
+          this.loginErrorMessage();
+        }
+      } catch (error) {
+        this.errorMessage = `Server error`;
+      }
+    },
+    logout() {
+      this.userName = null;
+      this.password = null;
+      this.accessToken = null;
+      this.refreshToken = null;
+      this.userId = 0;
+      this.number = 0;
+      this.loginSuccess = 0;
+    },
     async getTodos() {
       try {
         this.errorMessage = null;
@@ -31,9 +96,9 @@ var app = new Vue({
           return;
         }
         data = await response.json();
-        if (data.success!=1) {
-            this.errorMessage = `Server error2`;
-            return;
+        if (data.success != 1) {
+          this.errorMessage = `Server error2`;
+          return;
         }
         this.todoCollection = data.data;
       } catch (error) {
