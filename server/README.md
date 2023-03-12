@@ -637,3 +637,13 @@ Szegmonsek több szintű nyitása, csukása lehetővé teszik a kód átlátás�
   - stb.
 - Ctrl-k-j: kinyit mindent
 
+# Verzió követés
+1.0.0
+- Alap verzió
+
+1.1.0
+- Autentikáció módosítás: 
+  - `serverAuth.js`/`app.post("/login"...)`
+  - commit: `auth login javítás`
+  - login esetén a token mellé visszajön az id, és a number
+  - javítás: rossz jelszó esetén success: 0

@@ -21,18 +21,23 @@ ALTER TABLE todo.users
   ADD UNIQUE INDEX UK_users_email(email);
 
 
-
+# teszt adatok
 
 DELETE FROM todos;
 
 INSERT INTO todos
-  (id, name, completed, editing)
+  (id, name, completed, editing, userId)
   VALUES
-  (1, 'mozi', 0,0), (2, 'sörözõ', 0,0), (3, 'borozó', 0,0);
+  (1, 'mozi', 0,0, 23), (2, 'sörözõ', 0,0, 23), (3, 'borozó', 0,0, 23),
+  (4, 'munka', 0,0, 24), (5, 'váráslás', 0,0, 24), (6, 'fõzés', 0,0, 24);
 
+select * from todos;
+
+call todoGen();
 
 #lekérdezések
 select * from todos;
+select * from users; # jelszó 123
 
 # post
 INSERT INTO todos
@@ -48,4 +53,6 @@ DELETE FROM todos
 UPDATE todos SET
   name = 'mozi', completed = 1
   WHERE id = 1;
+
+select * from users;
 

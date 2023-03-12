@@ -31,6 +31,8 @@ app.post("/login", (req, res) => {
         message: "Invalid username or password",
         accessToken: "",
         refreshToken: "",
+        userId: 0, 
+        number: 0
       });
     }
 
@@ -48,14 +50,19 @@ app.post("/login", (req, res) => {
       refreshTokens.push(refreshToken);
 
       //mindkét tokent odaadjuk a bejelentkezőnek
-      sendingInfo(res, 1, "login successfully", { accessToken: accessToken, refreshToken: refreshToken }, 200);
+      sendingInfo(res, 1, "login successfully", { accessToken: accessToken, refreshToken: refreshToken, userId: results.id, number: results.number }, 200);
 
       console.log("accessToken /login:", accessToken);
       console.log("refreshToken /login:", refreshToken);
       console.log("refreshTokens /login:", refreshTokens);
       return;
     } else {
-      sendingInfo(res, 1, "Invalid username or password", { accessToken: "", refreshToken: "" }, 200);
+      sendingInfo(res, 0, "Invalid username or password", { 
+        accessToken: "", 
+        refreshToken: "",
+        userId: 0, 
+        number: 0
+      }, 200);
       return;
     }
   });
