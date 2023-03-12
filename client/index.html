@@ -30,6 +30,11 @@
 
             <!-- card body -->
             <div class="card-body">
+                <div class="alert alert-danger p-1" role="alert"
+                v-show="errorMessage"
+                >
+                    <h3>{{errorMessage}}</h3>
+                </div>
                 <ul class="list-group list-group-flush">
                     <!-- todo template -->
                     <li v-for="(todo, index) in filteredTodoCollection"
