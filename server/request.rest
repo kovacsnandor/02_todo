@@ -178,6 +178,7 @@ Content-Type: application/json
 ### ------------------------
 ### get todo
 get http://localhost:3000/todos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXJvbiIsImlhdCI6MTY3ODkxNTYwMiwiZXhwIjoxNjc4OTE2NTAyfQ.YLj1olkm6YeoZ0gianeHgjQZyHVauQe-OBfkKWfDF9U
 
 ### get todo by userId
 get http://localhost:3000/todos/24

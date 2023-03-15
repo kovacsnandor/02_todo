@@ -79,6 +79,9 @@ var app = new Vue({
       }
     },
     logout() {
+      this.clearUserdata();
+    },
+    clearUserdata(){
       this.userName = null;
       this.password = null;
       this.accessToken = null;
@@ -88,15 +91,25 @@ var app = new Vue({
       this.loginSuccess = 0;
     },
     async getTodos() {
+      const config= {
+        method: "GET",
+        headers: {Authorization: `Bearer ${this.accessToken}`}
+      }
       try {
         this.errorMessage = null;
         const url = `${this.url}/${this.userId}`;
-        const response = await fetch(url);
+        const response = await fetch(url, config);
         if (!response.ok) {
           this.errorMessage = "Server error1";
           return;
         }
         data = await response.json();
+
+        if (data.success == -10) {
+          //rossz, vagy lejárt token
+          this.clearUserdata();
+          return;
+        }
         if (data.success != 1) {
           this.errorMessage = `Server error2`;
           return;
@@ -115,6 +128,7 @@ var app = new Vue({
       const config = {
         method: "POST",
         headers: {
+          headers: {Authorization: `Bearer ${this.accessToken}`},
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -142,6 +156,7 @@ var app = new Vue({
       const config = {
         method: "PUT",
         headers: {
+          headers: {Authorization: `Bearer ${this.accessToken}`},
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -163,7 +178,8 @@ var app = new Vue({
     },
     async deleteTodo() {
       const config = {
-        method: "DELETE",
+        headers: {Authorization: `Bearer ${this.accessToken}`},
+        method: "DELETE"
       };
       try {
         this.errorMessage = null;
