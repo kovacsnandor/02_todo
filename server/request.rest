@@ -179,23 +179,29 @@ Content-Type: application/json
 ### get todo
 get http://localhost:3000/todos
 
+### get todo by userId
+get http://localhost:3000/todos/24
+
+
 ### post todo
 post http://localhost:3000/todos
 Content-Type: application/json
 
 {
     "name": "szerviz",
-    "completed": 0
+    "completed": 0,
+    "userId": 23
 }
 
 
 ### put todo by id
-put http://localhost:3000/todos/1
+put http://localhost:3000/todos/11
 Content-Type: application/json
 
 {
-    "name": "szerviz",
-    "completed": 1
+    "name": "uszoda",
+    "completed": 1,
+    "userId": 23
 }
 
 ### delte completed todos

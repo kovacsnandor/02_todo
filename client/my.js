@@ -90,7 +90,8 @@ var app = new Vue({
     async getTodos() {
       try {
         this.errorMessage = null;
-        const response = await fetch(this.url);
+        const url = `${this.url}/${this.userId}`;
+        const response = await fetch(url);
         if (!response.ok) {
           this.errorMessage = "Server error1";
           return;
@@ -109,6 +110,7 @@ var app = new Vue({
       const newTodo = {
         name: this.newTodoName,
         completed: 0,
+        userId: this.userId
       };
       const config = {
         method: "POST",
@@ -135,6 +137,7 @@ var app = new Vue({
       const newTodo = {
         name: todo.name,
         completed: todo.completed ? 1 : 0,
+        userId: this.userId
       };
       const config = {
         method: "PUT",

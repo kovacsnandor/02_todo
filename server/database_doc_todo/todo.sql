@@ -40,14 +40,14 @@ select * from todos;
 select * from users; # jelszó 123
 
 SELECT * FROM todos
-  WHERE userId = 24;
+  WHERE userId = 23;
 
 
 # post
 INSERT INTO todos
-  (name, completed)
+  (name, completed, userId)
   VALUES
-  ('mozi', 0);
+  ('mozi', 0, 23);
 
 # delete completed
 DELETE FROM todos
@@ -55,7 +55,7 @@ DELETE FROM todos
 
 #put
 UPDATE todos SET
-  name = 'mozi', completed = 1
+  name = 'mozi', completed = 1, userId = 23
   WHERE id = 1;
 
 select * from users;

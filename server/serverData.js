@@ -615,17 +615,47 @@ app.get("/todos", (req, res) => {
   });
 });
 
+app.get("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  let sql = `
+    SELECT * FROM todos
+    WHERE userId = ?`;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(sql, [id], async function (error, results, fields) {
+      if (error) {
+        const message = "Todos sql error";
+        sendingGetError(res, message);
+        return;
+      }
+      if (results.length == 0) {
+        const message = `Not found id: ${id}`;
+        sendingGetError(res, message);
+        return;
+      }
+      sendingGetById(res, null, results, id);
+    });
+    connection.release();
+  });
+});
+
+
 app.post("/todos", (req, res) => {
   const newR = {
     name: sanitizeHtml(req.body.name),
-    completed: +sanitizeHtml(req.body.completed)
+    completed: +sanitizeHtml(req.body.completed),
+    userId: req.body.userId
   };
 
   let sql = `
   INSERT INTO todos
-  (name, completed)
+  (name, completed, userId)
   VALUES
-  (?, ?)
+  (?, ?, ?)
     `;
 
   pool.getConnection(function (error, connection) {
@@ -635,7 +665,7 @@ app.post("/todos", (req, res) => {
     }
     connection.query(
       sql,
-      [newR.name, newR.completed],
+      [newR.name, newR.completed, newR.userId],
       function (error, result, fields) {
         sendingPost(res, error, result, newR);
       }
@@ -648,11 +678,12 @@ app.put("/todos/:id", (req, res) => {
   const id = req.params.id;
   const newR = {
     name: sanitizeHtml(req.body.name),
-    completed: +sanitizeHtml(req.body.completed)
+    completed: +sanitizeHtml(req.body.completed),
+    userId: req.body.userId
   };
   let sql = `
   UPDATE todos SET
-  name = ?, completed = ?
+  name = ?, completed = ?, userId = ?
   WHERE id = ?
       `;
 
@@ -663,7 +694,7 @@ app.put("/todos/:id", (req, res) => {
     }
     connection.query(
       sql,
-      [newR.name, newR.completed, id],
+      [newR.name, newR.completed, newR.userId, id],
       function (error, result, fields) {
         sendingPut(res, error, result, id, newR);
       }
