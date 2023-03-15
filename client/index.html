@@ -124,7 +124,7 @@
                             'line-through': todo.completed
                         }"
                 v-show="!todo.editing"
-                @dblclick="onDblClickTodoName(todo)"
+                @dblclick="onDblClickTodoName(todo, index)"
                 >{{todo.name}}</span
               >
 
@@ -133,6 +133,7 @@
                 <input
                   type="text"
                   class="form-control"
+                  ref="todoNames"
                   v-model="editingTodoName"
                   @keyup.enter="OnEnterTodoName(todo)"
                   @keyup.esc="OnCancelTodoName(todo)"

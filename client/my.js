@@ -182,13 +182,17 @@ var app = new Vue({
       const todo = this.todoCollection[index];
       this.putTodo(todo);
     },
-    onDblClickTodoName(todo) {
+    async onDblClickTodoName(todo, index) {
       //Ha már pipált, ne lehseen editálni
       if (todo.completed) {
         return;
       }
       todo.editing = true;
       this.editingTodoName = todo.name;
+      //megvárja, amíg a dom teljesen frissült
+      await this.$nextTick();
+      //Az index-edik inputx-el jelölt elemet teszi fókuszba
+      this.$refs.todoNames[index].focus();
     },
     OnEnterTodoName(todo) {
       todo.editing = false;
