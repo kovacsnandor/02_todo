@@ -25,17 +25,16 @@ var app = new Vue({
     userId: 0,
     number: 0,
     loginSuccess: 0,
-    loginError: 0,
+    loginErrorMessage: null
   },
   async mounted() {
     this.getTodos();
   },
   methods: {
-    loginErrorMessage(){
-      console.log("error message");
-      this.loginError = 1;
+    loginErrorMessageShow(message){
+      this.loginErrorMessage = message;
       setTimeout(()=>{
-        this.loginError = 0;
+        this.loginErrorMessage = null;
       }, 3000);
     },
     async login() {
@@ -72,7 +71,7 @@ var app = new Vue({
           this.getTodos();
         }else{
           //sikertelen bejelenkezés
-          this.loginErrorMessage();
+          this.loginErrorMessageShow("Hibás usernév vagy jelszó");
         }
       } catch (error) {
         this.errorMessage = `Server error`;
@@ -107,7 +106,8 @@ var app = new Vue({
 
         if (data.success == -10) {
           //rossz, vagy lejárt token
-          this.clearUserdata();
+          this.logout();
+          loginErrorMessageShow("Rossz vagy lejárt token, jelentkezzen be újra");
           return;
         }
         if (data.success != 1) {
@@ -128,12 +128,14 @@ var app = new Vue({
       const config = {
         method: "POST",
         headers: {
-          headers: {Authorization: `Bearer ${this.accessToken}`},
+          Authorization: `Bearer ${this.accessToken}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newTodo),
       };
+
+      console.log("post",config);
       try {
         this.errorMessage = null;
         const response = await fetch(this.url, config);
@@ -141,6 +143,14 @@ var app = new Vue({
           this.errorMessage = "Server error1";
           return;
         }
+        data = await response.json();
+        if (data.success == -10) {
+          //rossz, vagy lejárt token
+          this.logout();
+          loginErrorMessageShow("Rossz vagy lejárt token, jelentkezzen be újra");
+          return;
+        }
+
         this.getTodos();
       } catch (error) {
         this.errorMessage = `Server error`;
@@ -156,7 +166,7 @@ var app = new Vue({
       const config = {
         method: "PUT",
         headers: {
-          headers: {Authorization: `Bearer ${this.accessToken}`},
+          Authorization: `Bearer ${this.accessToken}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -171,6 +181,16 @@ var app = new Vue({
           this.errorMessage = "Server error1";
           return;
         }
+        data = await response.json();
+        if (data.success == -10) {
+          //rossz, vagy lejárt token
+          this.logout();
+          loginErrorMessageShow("Rossz vagy lejárt token, jelentkezzen be újra");
+          return;
+        }
+
+
+
         this.getTodos();
       } catch (error) {
         this.errorMessage = `Server error`;
@@ -194,7 +214,6 @@ var app = new Vue({
       }
     },
     onClickCompleted(index) {
-      console.log(index);
       const todo = this.todoCollection[index];
       this.putTodo(todo);
     },

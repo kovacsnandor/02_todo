@@ -647,7 +647,7 @@ app.get("/todos/:id", (req, res) => {
 app.post("/todos", (req, res) => {
   const newR = {
     name: sanitizeHtml(req.body.name),
-    completed: +sanitizeHtml(req.body.completed),
+    completed: req.body.completed ? 1:0,
     userId: req.body.userId
   };
 
@@ -678,9 +678,10 @@ app.put("/todos/:id", (req, res) => {
   const id = req.params.id;
   const newR = {
     name: sanitizeHtml(req.body.name),
-    completed: +sanitizeHtml(req.body.completed),
+    completed: req.body.completed ? 1 : 0,
     userId: req.body.userId
   };
+  console.log("newR",newR);
   let sql = `
   UPDATE todos SET
   name = ?, completed = ?, userId = ?

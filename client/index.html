@@ -53,15 +53,15 @@
             v-model="password"
           />
         </div>
-        <!-- login -->
+        <!-- Button login -->
         <button type="button" class="btn btn-primary mb-3"
             @click="login()"
         >
             Login
         </button>
 
-        <div v-if="loginError" class="alert alert-danger" role="alert">
-            Hibás user név vagy jelszó
+        <div v-if="loginErrorMessage" class="alert alert-danger" role="alert">
+            {{loginErrorMessage}}
         </div>
       </div>
 

@@ -187,6 +187,7 @@ get http://localhost:3000/todos/24
 ### post todo
 post http://localhost:3000/todos
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXJvbiIsImlhdCI6MTY3OTAwMzI0NiwiZXhwIjoxNjc5MDA0MTQ2fQ.G-BGCgTByvOkYX9RD6klyIiA2JW5D_T90ncHyz9sJb0
 
 {
     "name": "szerviz",
