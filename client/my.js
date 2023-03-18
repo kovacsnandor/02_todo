@@ -28,11 +28,13 @@ var app = new Vue({
     loginErrorMessage: null
   },
   async mounted() {
+    window.addEventListener("beforeunload", this.logout);
     this.getTodos();
   },
   methods: {
     loginErrorMessageShow(message){
       this.loginErrorMessage = message;
+      console.log("loginErrorMessageShow", this.loginErrorMessage);
       setTimeout(()=>{
         this.loginErrorMessage = null;
       }, 3000);
@@ -77,8 +79,33 @@ var app = new Vue({
         this.errorMessage = `Server error`;
       }
     },
-    logout() {
+    async logout() {
+      const urlLogout = `${this.urlAuth}/logout`
+      const body = {
+        token: this.refreshToken
+      };
+      const config = {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      };
       this.clearUserdata();
+      
+      console.log("delete",config);
+      try {
+        this.errorMessage = null;
+        const response = await fetch(urlLogout, config);
+        if (!response.ok) {
+          this.errorMessage = "Server error1";
+          return;
+        }
+      } catch (error) {
+        this.errorMessage = `Server error`;
+      }
     },
     clearUserdata(){
       this.userName = null;
@@ -92,22 +119,25 @@ var app = new Vue({
     async getTodos() {
       const config= {
         method: "GET",
-        headers: {Authorization: `Bearer ${this.accessToken}`}
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`
+        }
       }
       try {
         this.errorMessage = null;
         const url = `${this.url}/${this.userId}`;
         const response = await fetch(url, config);
+        console.log("getTodos() response: ",response);
         if (!response.ok) {
           this.errorMessage = "Server error1";
           return;
         }
         data = await response.json();
 
-        if (data.success == -10) {
+        if (data.success == -10 && this.loginSuccess) {
           //rossz, vagy lejárt token
           this.logout();
-          loginErrorMessageShow("Rossz vagy lejárt token, jelentkezzen be újra");
+          this.loginErrorMessageShow("Rossz vagy lejárt token, jelentkezzen be újra");
           return;
         }
         if (data.success != 1) {
@@ -147,7 +177,7 @@ var app = new Vue({
         if (data.success == -10) {
           //rossz, vagy lejárt token
           this.logout();
-          loginErrorMessageShow("Rossz vagy lejárt token, jelentkezzen be újra");
+          this.loginErrorMessageShow("Rossz vagy lejárt token, jelentkezzen be újra");
           return;
         }
 
@@ -182,15 +212,13 @@ var app = new Vue({
           return;
         }
         data = await response.json();
+        console.log("putTodo data", data);
         if (data.success == -10) {
-          //rossz, vagy lejárt token
+         console.log("rossz, vagy lejárt token");
           this.logout();
-          loginErrorMessageShow("Rossz vagy lejárt token, jelentkezzen be újra");
+          this.loginErrorMessageShow("Rossz vagy lejárt token, jelentkezzen be újra");
           return;
         }
-
-
-
         this.getTodos();
       } catch (error) {
         this.errorMessage = `Server error`;
