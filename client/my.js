@@ -34,7 +34,6 @@ var app = new Vue({
   methods: {
     loginErrorMessageShow(message){
       this.loginErrorMessage = message;
-      console.log("loginErrorMessageShow", this.loginErrorMessage);
       setTimeout(()=>{
         this.loginErrorMessage = null;
       }, 3000);
@@ -61,7 +60,6 @@ var app = new Vue({
           return;
         }
         const data = await response.json();
-        console.log("login", data);
         if (data.success) {
           //sikeres bejelentkezés
           this.loginSuccess = data.success;
@@ -94,8 +92,6 @@ var app = new Vue({
         body: JSON.stringify(body),
       };
       this.clearUserdata();
-      
-      console.log("delete",config);
       try {
         this.errorMessage = null;
         const response = await fetch(urlLogout, config);
@@ -127,7 +123,6 @@ var app = new Vue({
         this.errorMessage = null;
         const url = `${this.url}/${this.userId}`;
         const response = await fetch(url, config);
-        console.log("getTodos() response: ",response);
         if (!response.ok) {
           this.errorMessage = "Server error1";
           return;
@@ -165,7 +160,6 @@ var app = new Vue({
         body: JSON.stringify(newTodo),
       };
 
-      console.log("post",config);
       try {
         this.errorMessage = null;
         const response = await fetch(this.url, config);
@@ -212,9 +206,7 @@ var app = new Vue({
           return;
         }
         data = await response.json();
-        console.log("putTodo data", data);
         if (data.success == -10) {
-         console.log("rossz, vagy lejárt token");
           this.logout();
           this.loginErrorMessageShow("Rossz vagy lejárt token, jelentkezzen be újra");
           return;
@@ -287,7 +279,6 @@ var app = new Vue({
     },
     SetFilter(filter) {
       this.filter = filter;
-      console.log(this.filter);
     },
     OnClickRemoveCompleted() {
       // this.todoCollection = this.todoCollection.filter(function(todo){
