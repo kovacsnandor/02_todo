@@ -22,11 +22,20 @@
   <body>
     <div id="app" class="container-fluid my-container mt-5">
       <!-- logout -->
-      <div class="mb-5 d-flex flex-row align-items-center justify-content-end"
-        v-if="loginSuccess" 
+      <div
+        class="mb-5 d-flex flex-row align-items-center justify-content-end"
+        v-if="loginSuccess"
       >
-        <p class="m-0">{{userName}}</p>
-        <button type="button" class="btn btn-outline-danger ms-3" @click="logout()">
+        <button class="btn btn-outline-success" @click="rToken()">
+          <i class="bi bi-arrow-clockwise"></i>
+          ({{leftTime}})
+          {{userName}}
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger ms-3"
+          @click="logout()"
+        >
           <i class="bi bi-box-arrow-right"> logout</i>
         </button>
       </div>
@@ -54,14 +63,12 @@
           />
         </div>
         <!-- Button login -->
-        <button type="button" class="btn btn-primary mb-3"
-            @click="login()"
-        >
-            Login
+        <button type="button" class="btn btn-primary mb-3" @click="login()">
+          Login
         </button>
 
         <div v-if="loginErrorMessage" class="alert alert-danger" role="alert">
-            {{loginErrorMessage}}
+          {{loginErrorMessage}}
         </div>
       </div>
 

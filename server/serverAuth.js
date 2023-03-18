@@ -38,7 +38,8 @@ app.post("/login", (req, res) => {
         accessToken: "",
         refreshToken: "",
         userId: 0, 
-        number: 0
+        number: 0,
+        accessTime: "0"
       });
     }
 
@@ -56,7 +57,14 @@ app.post("/login", (req, res) => {
       refreshTokens.push(refreshToken);
 
       //mindkét tokent odaadjuk a bejelentkezőnek
-      sendingInfo(res, 1, "login successfully", { accessToken: accessToken, refreshToken: refreshToken, userId: results.id, number: results.number }, 200);
+      sendingInfo(res, 1, "login successfully", {
+         accessToken: accessToken, 
+         refreshToken: refreshToken, 
+         userId: results.id, 
+         number: results.number,
+         accessTime: process.env.ACCESS_TIME
+        
+        }, 200);
 
       console.log("accessToken /login:", accessToken);
       console.log("refreshToken /login:", refreshToken);
@@ -67,7 +75,8 @@ app.post("/login", (req, res) => {
         accessToken: "", 
         refreshToken: "",
         userId: 0, 
-        number: 0
+        number: 0,
+        accessTime: "0"
       }, 200);
       return;
     }
@@ -120,7 +129,7 @@ app.post("/token", (req, res) => {
 app.delete("/logout", (req, res) => {
   //eltüntetjük a refreshTokes-ből a küldött refreshToken-t
   refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
-  sendingInfo(res, 1, "Logout ok!", [], 402)
+  sendingInfo(res, 1, "Logout ok!", [], 200)
   console.log("refreshTokens /logout:", refreshTokens);
 });
 

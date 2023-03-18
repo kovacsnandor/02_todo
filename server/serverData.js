@@ -681,7 +681,6 @@ app.put("/todos/:id", (req, res) => {
     completed: req.body.completed ? 1 : 0,
     userId: req.body.userId
   };
-  console.log("newR",newR);
   let sql = `
   UPDATE todos SET
   name = ?, completed = ?, userId = ?
