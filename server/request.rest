@@ -178,16 +178,16 @@ Content-Type: application/json
 ### ------------------------
 ### get todo
 get http://localhost:3000/todos
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXJvbiIsImlhdCI6MTY3ODkxNTYwMiwiZXhwIjoxNjc4OTE2NTAyfQ.YLj1olkm6YeoZ0gianeHgjQZyHVauQe-OBfkKWfDF9U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXJvbiIsImlhdCI6MTY3OTM0NDc5NCwiZXhwIjoxNjc5MzQ1Njk0fQ.-1Y4rUYMEii_m0LY6UjILAcv3jReIigZGklU_F7Rpq8
 
 ### get todo by userId
 get http://localhost:3000/todos/24
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXJvbiIsImlhdCI6MTY3OTM0NDc5NCwiZXhwIjoxNjc5MzQ1Njk0fQ.-1Y4rUYMEii_m0LY6UjILAcv3jReIigZGklU_F7Rpq8
 
 ### post todo
 post http://localhost:3000/todos
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXJvbiIsImlhdCI6MTY3OTAwMzI0NiwiZXhwIjoxNjc5MDA0MTQ2fQ.G-BGCgTByvOkYX9RD6klyIiA2JW5D_T90ncHyz9sJb0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXJvbiIsImlhdCI6MTY3OTM0NDc5NCwiZXhwIjoxNjc5MzQ1Njk0fQ.-1Y4rUYMEii_m0LY6UjILAcv3jReIigZGklU_F7Rpq8
 
 {
     "name": "szerviz",
